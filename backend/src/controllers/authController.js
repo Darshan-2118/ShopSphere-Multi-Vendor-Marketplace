@@ -20,6 +20,16 @@ const register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
+    const allowedRoles = ["CUSTOMER", "SELLER"];
+
+    const userRole = role || "CUSTOMER";
+
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(400).json({
+        message: "Invalid registration role",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -34,7 +44,7 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || "CUSTOMER",
+      role: userRole,
     });
 
     const token = generateToken(user);
