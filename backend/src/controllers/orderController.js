@@ -103,7 +103,87 @@ const createOrder = async (req, res) => {
     });
   }
 };
+// Get customer's order history
+const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      customerId: req.user.id,
+    }).sort({ createdAt: -1 });
 
+    const ordersWithSellerOrders = await Promise.all(
+      orders.map(async (order) => {
+        const sellerOrders = await SellerOrder.find({
+          parentOrderId: order._id,
+        });
+
+        return {
+          ...order.toObject(),
+          sellerOrders,
+        };
+      }),
+    );
+
+    res.json({
+      orders: ordersWithSellerOrders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch order history",
+      error: error.message,
+    });
+  }
+};
+// Get single order details
+const getOrderById = async (req, res) => {
+  try {
+    const order = await Order.findOne({
+      _id: req.params.id,
+      customerId: req.user.id,
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    const sellerOrders = await SellerOrder.find({
+      parentOrderId: order._id,
+    });
+
+    res.json({
+      order: {
+        ...order.toObject(),
+        sellerOrders,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch order details",
+      error: error.message,
+    });
+  }
+};
+// Get seller's orders
+const getSellerOrders = async (req, res) => {
+  try {
+    const sellerOrders = await SellerOrder.find({
+      sellerId: req.user.id,
+    }).sort({ createdAt: -1 });
+
+    res.json({
+      sellerOrders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch seller orders",
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   createOrder,
+  getMyOrders,
+  getOrderById,
+  getSellerOrders,
 };
