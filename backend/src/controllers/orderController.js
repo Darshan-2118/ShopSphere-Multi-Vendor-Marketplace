@@ -35,20 +35,20 @@ const createOrder = async (req, res) => {
         });
       }
 
-      const itemTotal = item.price * item.quantity;
+      const itemTotal = product.price * item.quantity;
       totalAmount += itemTotal;
 
-      const sellerId = item.sellerId.toString();
+      const sellerId = product.sellerId.toString();
 
       if (!sellerGroups[sellerId]) {
         sellerGroups[sellerId] = [];
       }
 
       sellerGroups[sellerId].push({
-        productId: item.productId,
+        productId: product._id,
         quantity: item.quantity,
-        price: item.price,
-      });
+        price: product.price,
+      }); 
     }
 
     // Create parent order
