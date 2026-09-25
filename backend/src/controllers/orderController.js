@@ -36,6 +36,7 @@ const createOrder = async (req, res) => {
       }
 
       const itemTotal = product.price * item.quantity;
+
       totalAmount += itemTotal;
 
       const sellerId = product.sellerId.toString();
@@ -48,7 +49,7 @@ const createOrder = async (req, res) => {
         productId: product._id,
         quantity: item.quantity,
         price: product.price,
-      }); 
+      });
     }
 
     // Create parent order
@@ -73,6 +74,11 @@ const createOrder = async (req, res) => {
         sellerId,
         items,
         subtotal,
+
+        // Settlement values start at zero
+        commission: 0,
+        paymentFee: 0,
+        sellerAmount: 0,
       });
 
       sellerOrders.push(sellerOrder);
@@ -103,6 +109,7 @@ const createOrder = async (req, res) => {
     });
   }
 };
+
 // Get customer's order history
 const getMyOrders = async (req, res) => {
   try {
@@ -133,6 +140,7 @@ const getMyOrders = async (req, res) => {
     });
   }
 };
+
 // Get single order details
 const getOrderById = async (req, res) => {
   try {
@@ -164,6 +172,7 @@ const getOrderById = async (req, res) => {
     });
   }
 };
+
 // Get seller's orders
 const getSellerOrders = async (req, res) => {
   try {
@@ -181,6 +190,7 @@ const getSellerOrders = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   createOrder,
   getMyOrders,

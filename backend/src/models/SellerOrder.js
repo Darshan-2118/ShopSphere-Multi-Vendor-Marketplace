@@ -41,9 +41,31 @@ const sellerOrderSchema = new mongoose.Schema(
 
     items: [sellerOrderItemSchema],
 
+    // Total value of all products belonging to this seller
     subtotal: {
       type: Number,
       required: true,
+      min: 0,
+    },
+
+    // Platform commission (10%)
+    commission: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    // Payment processing fee
+    paymentFee: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    // Final amount payable to seller
+    sellerAmount: {
+      type: Number,
+      default: 0,
       min: 0,
     },
 
@@ -56,6 +78,7 @@ const sellerOrderSchema = new mongoose.Schema(
         "SHIPPED",
         "DELIVERED",
         "CANCELLED",
+        "REFUNDED",
       ],
       default: "PLACED",
     },
