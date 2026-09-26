@@ -1,0 +1,257 @@
+.delivery-profile-layout {
+  min-height: 100vh;
+  display: flex;
+  background: #f6f7f9;
+}
+
+/* ================= SIDEBAR ================= */
+
+.delivery-profile-sidebar {
+  width: 250px;
+  min-height: 100vh;
+  padding: 28px 18px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.delivery-profile-logo {
+  padding: 0 12px 30px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.delivery-profile-logo h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #222;
+}
+
+.delivery-profile-logo span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #777;
+}
+
+.delivery-profile-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 25px;
+}
+
+.delivery-profile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 8px;
+  color: #555;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.delivery-profile-nav-link:hover {
+  background: #f3f4f6;
+  color: #222;
+}
+
+.delivery-profile-nav-link.active {
+  background: #eeeeee;
+  color: #111;
+  font-weight: 600;
+}
+
+.delivery-profile-nav-link span {
+  width: 20px;
+  text-align: center;
+}
+
+.delivery-profile-logout {
+  margin-top: auto;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.delivery-profile-logout:hover {
+  background: #f5f5f5;
+}
+
+/* ================= MAIN ================= */
+
+.delivery-profile-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.delivery-profile-topbar {
+  min-height: 82px;
+  padding: 20px 35px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.delivery-profile-topbar h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #222;
+}
+
+.delivery-profile-topbar p {
+  margin: 6px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.delivery-profile-content {
+  padding: 35px;
+}
+
+/* ================= PROFILE CARD ================= */
+
+.delivery-profile-card {
+  max-width: 800px;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.delivery-profile-user-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.delivery-profile-avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.delivery-profile-user-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #222;
+}
+
+.delivery-profile-user-header p {
+  margin: 6px 0 0;
+  color: #777;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* ================= DETAILS ================= */
+
+.delivery-profile-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.delivery-profile-field {
+  padding: 20px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.delivery-profile-field:last-child {
+  border-bottom: none;
+}
+
+.delivery-profile-field span {
+  display: block;
+  margin-bottom: 7px;
+  color: #777;
+  font-size: 13px;
+}
+
+.delivery-profile-field strong {
+  color: #222;
+  font-size: 16px;
+}
+
+/* ================= STATES ================= */
+
+.delivery-profile-message {
+  margin: 0;
+  color: #777;
+  text-align: center;
+}
+
+.delivery-profile-error {
+  margin: 0;
+  color: #c62828;
+  text-align: center;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 800px) {
+  .delivery-profile-sidebar {
+    width: 210px;
+  }
+
+  .delivery-profile-content {
+    padding: 25px;
+  }
+
+  .delivery-profile-topbar {
+    padding: 20px 25px;
+  }
+}
+
+@media (max-width: 650px) {
+  .delivery-profile-layout {
+    display: block;
+  }
+
+  .delivery-profile-sidebar {
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .delivery-profile-navigation {
+    margin-top: 15px;
+  }
+
+  .delivery-profile-logout {
+    margin-top: 20px;
+  }
+
+  .delivery-profile-content {
+    padding: 20px 15px;
+  }
+
+  .delivery-profile-topbar {
+    padding: 20px 15px;
+  }
+
+  .delivery-profile-card {
+    padding: 22px;
+  }
+}

@@ -1,0 +1,360 @@
+/* =========================================================
+   DELIVERY DASHBOARD PAGE
+   The outer layout reuses the Delivery Profile UI.
+   ========================================================= */
+
+
+/* ==================== MAIN CONTENT ==================== */
+
+.delivery-dashboard-content {
+  padding: 32px;
+}
+
+
+/* ==================== WELCOME ==================== */
+
+.delivery-dashboard-welcome {
+  background: #ffffff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+
+  padding: 28px 30px;
+
+  margin-bottom: 28px;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.delivery-dashboard-label {
+  margin: 0 0 8px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #777;
+}
+
+.delivery-dashboard-welcome h2 {
+  margin: 0;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+.delivery-dashboard-welcome p:last-child {
+  margin: 8px 0 0;
+
+  font-size: 14px;
+
+  color: #777;
+}
+
+
+/* ==================== USER IN TOPBAR ==================== */
+
+.delivery-dashboard-user {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.delivery-dashboard-avatar {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #222;
+
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.delivery-dashboard-user-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.delivery-dashboard-user-info strong {
+  color: #222;
+
+  font-size: 14px;
+}
+
+.delivery-dashboard-user-info span {
+  color: #777;
+
+  font-size: 12px;
+}
+
+
+/* ==================== STATISTICS ==================== */
+
+.delivery-dashboard-stats {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+.delivery-dashboard-stat-card {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+
+  padding: 22px;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.delivery-dashboard-stat-content span {
+  display: block;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+.delivery-dashboard-stat-content h3 {
+  margin: 8px 0 0;
+
+  color: #222;
+
+  font-size: 28px;
+}
+
+.delivery-dashboard-stat-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #f2f2f2;
+
+  font-size: 21px;
+}
+
+
+/* ==================== CONTENT GRID ==================== */
+
+.delivery-dashboard-grid {
+  display: grid;
+
+  grid-template-columns: 1.5fr 1fr;
+
+  gap: 24px;
+}
+
+
+/* ==================== PANEL ==================== */
+
+.delivery-dashboard-panel {
+  background: #ffffff;
+
+  border: 1px solid #e5e5e5;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.delivery-dashboard-panel-header {
+  padding: 22px 24px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.delivery-dashboard-panel-header h2 {
+  margin: 0;
+
+  color: #222;
+
+  font-size: 18px;
+}
+
+.delivery-dashboard-panel-header p {
+  margin: 5px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/* ==================== EMPTY STATE ==================== */
+
+.delivery-dashboard-empty {
+  padding: 50px 25px;
+
+  text-align: center;
+}
+
+.delivery-dashboard-empty-icon {
+  margin-bottom: 12px;
+
+  font-size: 38px;
+}
+
+.delivery-dashboard-empty h3 {
+  margin: 0;
+
+  color: #333;
+
+  font-size: 17px;
+}
+
+.delivery-dashboard-empty p {
+  max-width: 420px;
+
+  margin: 8px auto 0;
+
+  color: #777;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* ==================== QUICK ACTIONS ==================== */
+
+.delivery-dashboard-actions {
+  padding: 8px 0;
+}
+
+.delivery-dashboard-action {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 18px 22px;
+
+  text-decoration: none;
+
+  color: #222;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.delivery-dashboard-action:last-child {
+  border-bottom: none;
+}
+
+.delivery-dashboard-action:hover {
+  background: #fafafa;
+}
+
+.delivery-dashboard-action > span {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 9px;
+
+  background: #f2f2f2;
+
+  font-size: 19px;
+}
+
+.delivery-dashboard-action div {
+  flex: 1;
+}
+
+.delivery-dashboard-action strong {
+  display: block;
+
+  color: #222;
+
+  font-size: 14px;
+}
+
+.delivery-dashboard-action small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #888;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+.delivery-dashboard-action b {
+  color: #777;
+
+  font-size: 18px;
+}
+
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1000px) {
+
+  .delivery-dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .delivery-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .delivery-dashboard-content {
+    padding: 20px;
+  }
+
+  .delivery-dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery-dashboard-user-info {
+    display: none;
+  }
+
+}
