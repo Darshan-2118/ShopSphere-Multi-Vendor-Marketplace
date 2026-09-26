@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import api from "../services/api";
 import "../styles/product-details.css";
 
 function ProductDetails() {
@@ -10,6 +13,8 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [cartMessage, setCartMessage] = useState("");
+  const [addingToCart, setAddingToCart] = useState(false);
 
   useEffect(() => {
     fetchProduct();
@@ -17,20 +22,19 @@ function ProductDetails() {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/products/${id}`
-      );
+      const result = await api(`/products/${id}`);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(data.message || "Failed to load product.");
+      if (!result.ok) {
+        setMessage(
+          result.data.message || "Failed to load product."
+        );
         return;
       }
 
-      setProduct(data);
+      setProduct(result.data.product);
     } catch (error) {
       console.error("Product details error:", error);
+
       setMessage("Unable to connect to the server.");
     } finally {
       setLoading(false);
@@ -49,12 +53,105 @@ function ProductDetails() {
     }
   };
 
+  const addProductToCart = async () => {
+    if (!product || product.stock <= 0) {
+      return false;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setCartMessage(
+        "Please login to add products to your cart."
+      );
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+
+      return false;
+    }
+
+    const result = await api("/cart", {
+      method: "POST",
+      body: JSON.stringify({
+        productId: product._id,
+        quantity: quantity,
+      }),
+    });
+
+    if (!result.ok) {
+      setCartMessage(
+        result.data.message ||
+          "Failed to add product to cart."
+      );
+
+      return false;
+    }
+
+    return true;
+  };
+
+  const addToCart = async () => {
+    setAddingToCart(true);
+    setCartMessage("");
+
+    try {
+      const success = await addProductToCart();
+
+      if (!success) {
+        return;
+      }
+
+      setCartMessage("Product added to cart.");
+
+      setTimeout(() => {
+        setCartMessage("");
+      }, 2500);
+    } catch (error) {
+      console.error("Add to cart error:", error);
+
+      setCartMessage(
+        "Unable to connect to the server."
+      );
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
+  const buyNow = async () => {
+    setAddingToCart(true);
+    setCartMessage("");
+
+    try {
+      const success = await addProductToCart();
+
+      if (!success) {
+        return;
+      }
+
+      navigate("/cart");
+    } catch (error) {
+      console.error("Buy now error:", error);
+
+      setCartMessage(
+        "Unable to connect to the server."
+      );
+    } finally {
+      setAddingToCart(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="product-details-page">
+        <Navbar />
+
         <p className="product-details-status">
           Loading product...
         </p>
+
+        <Footer />
       </div>
     );
   }
@@ -62,16 +159,21 @@ function ProductDetails() {
   if (message) {
     return (
       <div className="product-details-page">
+        <Navbar />
+
         <p className="product-details-status">
           {message}
         </p>
 
         <button
           className="back-products-button"
+          type="button"
           onClick={() => navigate("/products")}
         >
           Back to products
         </button>
+
+        <Footer />
       </div>
     );
   }
@@ -79,16 +181,21 @@ function ProductDetails() {
   if (!product) {
     return (
       <div className="product-details-page">
+        <Navbar />
+
         <p className="product-details-status">
           Product not found.
         </p>
 
         <button
           className="back-products-button"
+          type="button"
           onClick={() => navigate("/products")}
         >
           Back to products
         </button>
+
+        <Footer />
       </div>
     );
   }
@@ -96,48 +203,24 @@ function ProductDetails() {
   return (
     <div className="product-details-page">
 
-      {/* Navbar */}
-      <nav className="product-details-navbar">
-
-        <button
-          className="product-details-logo"
-          onClick={() => navigate("/")}
-        >
-          ShopSphere
-        </button>
-
-        <div className="product-details-nav-links">
-          <button onClick={() => navigate("/")}>
-            Home
-          </button>
-
-          <button onClick={() => navigate("/products")}>
-            Products
-          </button>
-
-          <button onClick={() => navigate("/login")}>
-            Login
-          </button>
-        </div>
-
-        <button
-          className="product-details-cart"
-          type="button"
-        >
-          🛒 Cart
-        </button>
-
-      </nav>
+      {/* Common Navbar */}
+      <Navbar />
 
       {/* Breadcrumb */}
       <div className="product-details-breadcrumb">
-        <button onClick={() => navigate("/")}>
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+        >
           Home
         </button>
 
         <span>/</span>
 
-        <button onClick={() => navigate("/products")}>
+        <button
+          type="button"
+          onClick={() => navigate("/products")}
+        >
           Products
         </button>
 
@@ -151,7 +234,6 @@ function ProductDetails() {
 
         {/* Image */}
         <div className="product-details-image">
-
           {product.image ? (
             <img
               src={product.image}
@@ -162,7 +244,6 @@ function ProductDetails() {
               No image available
             </div>
           )}
-
         </div>
 
         {/* Information */}
@@ -172,9 +253,7 @@ function ProductDetails() {
             {product.category}
           </p>
 
-          <h1>
-            {product.name}
-          </h1>
+          <h1>{product.name}</h1>
 
           <p className="product-details-price">
             ₹{product.price}
@@ -194,10 +273,7 @@ function ProductDetails() {
             <>
               {/* Quantity */}
               <div className="quantity-section">
-
-                <span>
-                  Quantity
-                </span>
+                <span>Quantity</span>
 
                 <div className="quantity-controls">
 
@@ -209,46 +285,61 @@ function ProductDetails() {
                     −
                   </button>
 
-                  <span>
-                    {quantity}
-                  </span>
+                  <span>{quantity}</span>
 
                   <button
                     type="button"
                     onClick={increaseQuantity}
-                    disabled={quantity >= product.stock}
+                    disabled={
+                      quantity >= product.stock
+                    }
                   >
                     +
                   </button>
 
                 </div>
-
               </div>
 
               {/* Total */}
               <div className="product-details-total">
-                <span>
-                  Total
-                </span>
+                <span>Total</span>
 
                 <strong>
-                  ₹{product.price * quantity}
+                  ₹
+                  {(
+                    product.price * quantity
+                  ).toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                  })}
                 </strong>
               </div>
 
-              {/* Buttons */}
+              {/* Cart Message */}
+              {cartMessage && (
+                <p className="cart-success-message">
+                  {cartMessage}
+                </p>
+              )}
+
+              {/* Actions */}
               <div className="product-details-actions">
 
                 <button
                   className="add-to-cart-details"
                   type="button"
+                  onClick={addToCart}
+                  disabled={addingToCart}
                 >
-                  Add to cart
+                  {addingToCart
+                    ? "Adding..."
+                    : "Add to cart"}
                 </button>
 
                 <button
                   className="buy-now-details"
                   type="button"
+                  onClick={buyNow}
+                  disabled={addingToCart}
                 >
                   Buy now
                 </button>
@@ -260,6 +351,7 @@ function ProductDetails() {
           {product.stock <= 0 && (
             <button
               className="out-of-stock-button"
+              type="button"
               disabled
             >
               Out of stock
@@ -267,25 +359,10 @@ function ProductDetails() {
           )}
 
         </div>
-
       </main>
 
-      {/* Footer */}
-      <footer className="product-details-footer">
-
-        <div className="product-details-footer-logo">
-          ShopSphere
-        </div>
-
-        <p>
-          Your multi-vendor marketplace.
-        </p>
-
-        <p className="product-details-footer-copy">
-          © 2026 ShopSphere. All rights reserved.
-        </p>
-
-      </footer>
+      {/* Common Footer */}
+      <Footer />
 
     </div>
   );
